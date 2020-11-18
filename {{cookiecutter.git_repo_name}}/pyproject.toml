@@ -21,9 +21,9 @@ psycopg2 = "^2.8.6"
 pydantic = {version = "^1.6.1", extras = ["email"]}
 slackclient = "^2.9.3"
 dateparser = "^0.7.6"
+pytest = "^6.1.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.1.1"
 coverage = "^5.3"
 
 [build-system]
