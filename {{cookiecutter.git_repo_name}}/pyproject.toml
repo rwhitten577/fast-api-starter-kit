@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "{{cookiecutter.git-repo-name}}"
+name = "{{cookiecutter.git_repo_name}}"
 version = "0.1.0"
 description = ""
 authors = ["Ryan Whitten <rwhitten577@gmail.com>"]
