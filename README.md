@@ -1,11 +1,11 @@
 ## Cookiecutter FastAPI Starter Kit
-#### An opinionated starter kit for quickly building FastAPI services with PostgreSQL, SQLAlchemy, Alembic.
+#### An opinionated starter kit for quickly building FastAPI services with MySQL, SQLAlchemy, Alembic.
 
 ### Features
 * FastAPI for service creation
 * Uvicorn ASGI server for local development, Mangum for deploying to AWS Lambda
 * SQLAlchemy & Alembic for ORM/database migrations
-* Default database is MySQL but easily configurable to use Postgres, etc. 
+* Default database dialect is MySQL but easily configurable to use Postgres, etc. 
 * Uses AWS Cognito for Auth - decodes JWT tokens from Cognito. Easily configured to decode tokens generated elsewhere. 
 
 ### Installation
