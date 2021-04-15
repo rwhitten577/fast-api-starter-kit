@@ -89,8 +89,7 @@ def read_user_by_id(user_id: int, current_user: models.User = Depends(deps.get_c
     return user
 
 
-@router.patch("/{user_id}", response_model=schemas.User, dependencies=[Depends(
-    deps.get_current_active_superuser)])
+@router.patch("/{user_id}", response_model=schemas.User, dependencies=[Depends(deps.get_current_active_superuser)])
 def update_user(*, db: Session = Depends(deps.get_db), user_id: int, user_in: schemas.UserUpdate) -> Any:
     """
     Update a user. To be used by superusers only, e.g. set user as inactive.

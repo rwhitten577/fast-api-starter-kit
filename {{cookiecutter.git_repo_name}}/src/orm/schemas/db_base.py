@@ -9,6 +9,7 @@ class DBBase(BaseModel):
     created: Optional[datetime] = None
     modified: Optional[datetime] = None
     deleted: Optional[bool] = None
+    version: Optional[int] = None
 
     class Config:
         orm_mode = True

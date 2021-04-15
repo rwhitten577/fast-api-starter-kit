@@ -1,0 +1,54 @@
+[default]
+project_name = "{{cookiecutter.project_name}}"
+api_v1_str = "/api/v1"
+backend_cors_origins = "*"
+aws_region = "us-east-1"
+
+    [default.alembic]
+    script_location = "./alembic"
+    sqlalchemy.url = ""
+
+    [default.slack]
+    api_token = "${SLACK_API_TOKEN}"
+    enabled = true
+
+    [default.logging]
+    uvicorn = "INFO"
+    "uvicorn.error" = "INFO"
+    "uvicorn.access" = "INFO"
+
+[local]
+environment = "local"
+database_url = "${DATABASE_URL}"
+cognito_user_pool_id = ""
+
+    [local.slack]
+    channel_id = ""
+    enabled = false
+
+    [local.logging]
+    "sqlalchemy.engine" = "INFO"
+
+[dev]
+environment = "dev"
+database_url = ""
+cognito_user_pool_id = ""
+
+    [dev.slack]
+    channel_id = ""
+
+[stage]
+environment = "stage"
+database_url = ""
+cognito_user_pool_id = ""
+
+    [stage.slack]
+    channel_id = ""
+
+[prod]
+environment = "prod"
+database_url = ""
+cognito_user_pool_id = ""
+
+    [prod.slack]
+    channel_id = ""

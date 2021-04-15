@@ -13,3 +13,6 @@ class UserCrud(BaseCrud[User, UserCreate, UserUpdate]):
 
     def get_by_sub(self, *, sub: str) -> Optional[User]:
         return self.db.query(self.model).filter(User.sub == sub).first()
+
+    def get_by_email(self, *, email: str) -> Optional[User]:
+        return self.db.query(self.model).filter(User.email == email).first()

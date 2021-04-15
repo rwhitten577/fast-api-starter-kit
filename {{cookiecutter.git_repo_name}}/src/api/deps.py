@@ -10,14 +10,15 @@ from src.orm.models import User
 from src.orm.session import SessionLocal
 from src.services.crud.user_crud import UserCrud
 
+# Comment out or remove if you have API Gateway custom authorizer set up.
 jwks = JWKS.parse_obj(
     requests.get(
-        f"https://cognito-idp.{settings.AWS_REGION}.amazonaws.com/"
-        f"{settings.COGNITO_USER_POOL_ID}/.well-known/jwks.json"
+        f"https://cognito-idp.{settings.aws_region}.amazonaws.com/"
+        f"{settings.cognito_user_pool_id}/.well-known/jwks.json"
     ).json()
 )
 
-
+# For APIG custom authorizer, either remove `jwks` arg or make sure it is set to None`.
 auth = JWTBearer(jwks)
 
 

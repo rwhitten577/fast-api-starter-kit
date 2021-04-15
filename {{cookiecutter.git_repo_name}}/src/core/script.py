@@ -19,7 +19,7 @@ class Script:
         try:
             return self.run()
         except Exception as e:
-            msg = f"Generic error caught running ETL. Update code to catch this further down. {e}"
+            msg = f"Generic error caught running Script. Update code to catch this further down. {e}"
             logger.exception(msg)
             self.slack_connector.send_slack_alert(msg)
 

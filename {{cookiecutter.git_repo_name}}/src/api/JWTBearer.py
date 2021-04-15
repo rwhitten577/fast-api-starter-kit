@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Optional, List, Any
 
 from fastapi import HTTPException, status
@@ -6,6 +7,8 @@ from jose import jwt, jwk, JWTError
 from jose.utils import base64url_decode
 from pydantic import BaseModel
 from starlette.requests import Request
+
+from src.core import settings
 
 JWK = Dict[str, str]
 
@@ -23,10 +26,10 @@ class JWTAuthorizationCredentials(BaseModel):
 
 
 class JWTBearer(HTTPBearer):
-    def __init__(self, jwks: JWKS, auto_error: bool = True):
+    def __init__(self, jwks: JWKS = None, auto_error: bool = True):
         super().__init__(auto_error=auto_error)
 
-        self.kid_to_jwk = {jwk["kid"]: jwk for jwk in jwks.keys}
+        self.kid_to_jwk = {jwk["kid"]: jwk for jwk in jwks.keys} if jwks else None
 
     def verify_jwk_token(self, jwt_credentials: JWTAuthorizationCredentials) -> bool:
         try:
@@ -42,6 +45,16 @@ class JWTBearer(HTTPBearer):
         return key.verify(jwt_credentials.message.encode(), decoded_signature)
 
     async def __call__(self, request: Request) -> Optional[JWTAuthorizationCredentials]:
+        # Allow override for local development by passing query param `sub` with real sub value
+        if request.query_params.get("sub") and settings.env == "local":
+            return JWTAuthorizationCredentials(
+                jwt_token="abc",
+                header={"Authorization": "Bearer xyz"},
+                claims={"sub": request.query_params.get("sub")},
+                signature="xyz",
+                message="hi"
+            )
+
         credentials: HTTPAuthorizationCredentials = await super().__call__(request)
 
         if credentials:
@@ -67,7 +80,7 @@ class JWTBearer(HTTPBearer):
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Could not validate credentials",
                 )
-            if not self.verify_jwk_token(jwt_credentials):
+            if self.kid_to_jwk and not self.verify_jwk_token(jwt_credentials):
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Could not validate credentials",
